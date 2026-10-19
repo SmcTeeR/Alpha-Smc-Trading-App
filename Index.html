@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050914">
+<title>AlphaBot SMC</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#050914;color:#e8f5ff;font-family:Arial,sans-serif}
+header{text-align:center;padding:28px 16px 20px}
+.logo{width:90px;height:90px;margin:auto;border:2px solid #00d9ff;border-radius:50%;display:grid;place-items:center;font-size:42px;box-shadow:0 0 25px #007caa}
+h1{font-size:25px;margin:15px 0 5px}
+p{color:#8ca8c7;font-size:13px}
+main{max-width:480px;margin:auto;padding:0 16px 35px}
+.panel{border:1px solid #075d85;border-radius:18px;padding:17px;margin-bottom:15px;background:#091426;box-shadow:0 0 12px #001c33}
+.status{display:flex;justify-content:space-between;align-items:center}
+.dot{color:#ff8794}
+button{border:1px solid #00d9ff;background:#071d30;color:#e8faff;padding:13px 10px;border-radius:12px;font-weight:bold}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.primary{background:#00bfe8;color:#00101a}
+.stop{border-color:#ff5c70;color:#ff8794}
+.scan{width:100%;margin-top:10px}
+h2{font-size:15px;margin:0 0 14px;color:#54dfff}
+.metric{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid #1a2c42;font-size:13px}
+.metric:last-child{border:0}
+input,select{background:#06101f;border:1px solid #25405b;color:white;padding:10px;border-radius:8px;width:100%;margin:6px 0 13px}
+label{font-size:12px;color:#a9c1da}
+#message{white-space:pre-line;font-size:13px;line-height:1.7;color:#bdefff;margin-top:15px}
+footer{text-align:center;color:#58738f;font-size:11px;padding:10px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">⚡</div>
+<h1>ALPHABOT SMC</h1>
+<p>SMART MONEY CONCEPTS TRADING SYSTEM</p>
+</header>
+<main>
+<section class="panel">
+<div class="status"><strong>ROBOT STATUS</strong><strong class="dot" id="status">● STOPPED</strong></div>
+<p id="substatus">Trading engine not connected</p>
+<div class="controls">
+<button class="primary" onclick="startBot()">▶ START</button>
+<button class="stop" onclick="stopBot()">■ STOP</button>
+</div>
+<button class="scan" onclick="scanMarket()">⌕ SCAN MARKET (DEMO)</button>
+</section>
+<section class="panel">
+<h2>⌁ MARKET SCANNER</h2>
+<label>Trading instrument</label>
+<select id="symbol">
+<option>XAUUSD — Gold</option>
+<option>US30 — Dow Jones</option>
+<option>BTCUSD — Bitcoin</option>
+<option>NAS100 — Nasdaq</option>
+</select>
+<div class="metric"><span>Higher timeframe</span><b>H4</b></div>
+<div class="metric"><span>Structure timeframe</span><b>H1</b></div>
+<div class="metric"><span>Entry timeframe</span><b>M15 / M5</b></div>
+<div id="message">Ready for a demo scan.
+No live market data connected.</div>
+</section>
+<section class="panel">
+<h2>🛡 RISK MANAGEMENT</h2>
+<label>Risk per trade (R)</label>
+<input id="risk" type="number" value="250" min="1">
+<label>Daily loss limit (R)</label>
+<input id="daily" type="number" value="500" min="1">
+<label>Maximum trades per day</label>
+<input id="maxtrades" type="number" value="2" min="1" max="2">
+<button class="scan" onclick="saveSettings()">SAVE SETTINGS</button>
+<div id="saved" class="metric"><span>Settings</span><b>Not saved</b></div>
+</section>
+<section class="panel">
+<h2>📊 SMC CHECKLIST</h2>
+<div class="metric"><span>Market structure / BOS</span><b>Pending</b></div>
+<div class="metric"><span>CHOCH confirmation</span><b>Pending</b></div>
+<div class="metric"><span>Order block</span><b>Pending</b></div>
+<div class="metric"><span>Fair value gap</span><b>Pending</b></div>
+<div class="metric"><span>Liquidity sweep</span><b>Pending</b></div>
+</section>
+<footer>ALPHABOT SMC • DEMO ONLY • NO BROKER CONNECTION</footer>
+</main>
+<script>
+function startBot(){
+document.getElementById('status').textContent='● DEMO ON';
+document.getElementById('status').style.color='#00e6a0';
+document.getElementById('substatus').textContent='Dashboard demo active — no trades will be placed';
+}
+function stopBot(){
+document.getElementById('status').textContent='● STOPPED';
+document.getElementById('status').style.color='#ff8794';
+document.getElementById('substatus').textContent='Dashboard demo stopped';
+}
+function scanMarket(){
+document.getElementById('message').textContent=
+'DEMO SCAN ONLY\nInstrument: '+document.getElementById('symbol').value+
+'\nH4: Waiting for live price data\nH1: Structure not yet analysed\nM15/M5: Confirmation unavailable\n\nNo buy or sell signal generated.';
+}
+function saveSettings(){
+const r=Number(document.getElementById('risk').value);
+const d=Number(document.getElementById('daily').value);
+const t=Number(document.getElementById('maxtrades').value);
+if(r<=0||d<=0||t<1||t>2){alert('Enter positive risk values and a maximum of 2 trades.');return;}
+document.getElementById('saved').innerHTML='<span>Demo settings</span><b>R'+r+' / R'+d+' / '+t+' trades</b>';
+}
+</script>
+</body>
+</html>
